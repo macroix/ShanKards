@@ -207,6 +207,8 @@ const dictionary = '{' +
   ']' +
 '}'
 
+///////////////////// CONSTANTS ////////////////////////
+
 let dealer = JSON.parse(dictionary); // Word Bank
 let button = document.querySelector('.test-button');  // To be removed
 let firstOption = document.querySelector('#first'); // First Answer
@@ -218,6 +220,8 @@ let pinyin = document.querySelector('.pinyin'); // Latinized Text
 let mainText = document.querySelector('.front-text'); // Chinese Text
 let flipContainer = document.querySelector('.flip-container'); // mid flip container
 let buttonContainer = document.querySelector('.button-container') // button container
+
+///////////////////// MODE 1 ////////////////////////
 
 // Clears the answer selectors
 const clearAnswers = function() {
@@ -292,9 +296,6 @@ const reset = function() {
 	return(draw)
 }
 
-let answerButtons = document.getElementsByClassName('choice');
-let enabled = true;
-
 const answerCheck = function() {
 	if (enabled) {
 		enabled = false;
@@ -309,6 +310,20 @@ const answerCheck = function() {
 		setTimeout(reframe, 1500);
 	}
 }
+
+const reframe = function() {
+	shankard.classList.toggle('flipme');
+	currentWord = setTimeout(reset, 320);
+    enabled = true;
+}
+
+const incrementScore = function() {
+	score = parseInt(document.getElementById('score-board').innerHTML);
+	score++;
+	document.getElementById('score-board').innerHTML = score;
+}
+
+///////////////////// MODE 2 ////////////////////////
 
 const escalate = function() {
 	if (enabled) {
@@ -327,35 +342,82 @@ const escalate = function() {
 			this.style.backgroundColor = '#ffd3d5';
 		}
 		setTimeout(reframeEscalate, 1500);
-		syllableCount = dealer.entries[currentWord].tones.length
-		while (buttonContainer.firstChild) {
-    		buttonContainer.removeChild(buttonContainer.firstChild);
-		}
-		for (let i=0;i<syllableCount;i++) {
-			let syllable = document.createElement('input');
-			buttonContainer.appendChild(syllable);
-		}
 	}
 }
 
-const reframe = function() {
+const reframe2 = function() {
 	shankard.classList.toggle('flipme');
-	currentWord = setTimeout(reset, 320);
+	currentWord = setTimeout(reset2, 1500);
     enabled = true;
+}
+
+const reset2 = function() {
+	shankard.classList.toggle('flipme');
+	let draw = Math.floor(Math.random() * 21);
+	mainText.innerHTML = dealer.entries[draw].word;
+	translation.innerHTML = dealer.entries[draw].english;
+	pinyin.innerHTML = dealer.entries[draw].pinyin;
+	while (buttonContainer.firstChild) {
+		buttonContainer.removeChild(buttonContainer.firstChild);
+	}
+	let fourth = document.createElement("div");
+	fourth.className = "choice";
+	fourth.idName = "fourth";
+	buttonContainer.appendChild(fourth);
+	let third = document.createElement("div");
+	third.className = "choice";
+	third.idName = "third";
+	buttonContainer.appendChild(third);
+	let second = document.createElement("div");
+	second.className = "choice";
+	second.idName = "second";
+	buttonContainer.appendChild(second);
+	let first = document.createElement("div");
+	first.className = "choice";
+	first.idName = "first";
+	buttonContainer.appendChild(first);
+	correct = fillCorrectAnswer(draw);
+	let incorrectAnswers = findIncorrectAnswers(draw);
+	fillIncorrectAnswers(correct, incorrectAnswers);
+	return(draw)
+}
+
+const checkInput = function() {
+	let textInputs = document.getElementsByTagName('input');
+	userAnswer = '';
+	for (let i=0;i<textInputs.length;i++) {
+		userAnswer += textInputs[i].value;
+	}
+	if (userAnswer === dealer.entries[currentWord].flat_pinyin) {
+		incrementScore();
+	}
+	setTimeout(reframe2, 600);
 }
 
 const reframeEscalate = function() {
     enabled = true;
+	syllableCount = dealer.entries[currentWord].tones.length
+	while (buttonContainer.firstChild) {
+		buttonContainer.removeChild(buttonContainer.firstChild);
+	}
+	for (let i=0;i<syllableCount;i++) {
+		let syllable = document.createElement('input');
+		syllable.addEventListener('keyup',function(e){
+    		if (e.keyCode === 13) {
+    			checkInput()
+  			}  
+		});
+		buttonContainer.appendChild(syllable);
+	}
 }
 
-const incrementScore = function() {
-	score = parseInt(document.getElementById('score-board').innerHTML);
-	score++;
-	document.getElementById('score-board').innerHTML = score;
-}
+///////////////////// MAIN ////////////////////////
+
+let answerButtons = document.getElementsByClassName('choice');
+let enabled = true;
 
 for (let i=0; i<answerButtons.length; i++) {
-    answerButtons[i].addEventListener('click', escalate, false);
+    answerButtons[i].addEventListener('click', answerCheck, false);
 }
 
 currentWord = reset();
