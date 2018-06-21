@@ -290,23 +290,27 @@ const reset = function() {
 }
 
 let answerButtons = document.getElementsByClassName('choice');
+let enabled = true;
 
 const answerCheck = function() {
-	shankard.classList.toggle('flipme');
-	isRight = (this.textContent === translation.textContent)
-	if (isRight) {
-		incrementScore();
-		this.style.backgroundColor = '#e5fff2';
-	} else {
-		this.style.backgroundColor = '#ffd3d5';
+	if (enabled) {
+		enabled = false;
+		shankard.classList.toggle('flipme');
+		isRight = (this.textContent === translation.textContent)
+		if (isRight) {
+			incrementScore();
+			this.style.backgroundColor = '#e5fff2';
+		} else {
+			this.style.backgroundColor = '#ffd3d5';
+		}
+		setTimeout(reframe, 1500);
 	}
-	setTimeout(reframe, 1500);
-	let choices = document.getElementsByClassName("choice");
 }
 
 const reframe = function() {
 	shankard.classList.toggle('flipme');
 	setTimeout(reset, 320);
+    enabled = true;
 }
 
 const incrementScore = function() {
