@@ -216,6 +216,8 @@ let fourthOption = document.querySelector('#fourth'); // Fourth Answer
 let translation = document.querySelector('.translation'); // English Text
 let pinyin = document.querySelector('.pinyin'); // Latinized Text
 let mainText = document.querySelector('.front-text'); // Chinese Text
+let flipContainer = document.querySelector('.flip-container'); // mid flip container
+let buttonContainer = document.querySelector('.button-container') // button container
 
 // Clears the answer selectors
 const clearAnswers = function() {
@@ -287,6 +289,7 @@ const reset = function() {
 	for (let i=0; i<choices.length; i++) {
 		choices[i].style.backgroundColor = '#f2feff';
 	}
+	return(draw)
 }
 
 let answerButtons = document.getElementsByClassName('choice');
@@ -300,12 +303,6 @@ const answerCheck = function() {
 		if (isRight) {
 			incrementScore();
 			this.style.backgroundColor = '#e5fff2';
-			let elem = this;
-			var domNode = anime({
-  				targets: elem,
-  				translateX: 800,
-  				delay: 1000
-			});
 		} else {
 			this.style.backgroundColor = '#ffd3d5';
 		}
@@ -313,9 +310,41 @@ const answerCheck = function() {
 	}
 }
 
+const escalate = function() {
+	if (enabled) {
+		enabled = false;
+		isRight = (this.textContent === translation.textContent)
+		if (isRight) {
+			incrementScore();
+			this.style.backgroundColor = '#e5fff2';
+			var domNode = anime({
+  				targets: ".choice",
+  				translateX: 800,
+  				delay: 1000,
+  				easing: 'easeInOutQuart'
+			});
+		} else {
+			this.style.backgroundColor = '#ffd3d5';
+		}
+		setTimeout(reframeEscalate, 1500);
+		syllableCount = dealer.entries[currentWord].tones.length
+		while (buttonContainer.firstChild) {
+    		buttonContainer.removeChild(buttonContainer.firstChild);
+		}
+		for (let i=0;i<syllableCount;i++) {
+			let syllable = document.createElement('input');
+			buttonContainer.appendChild(syllable);
+		}
+	}
+}
+
 const reframe = function() {
 	shankard.classList.toggle('flipme');
-	setTimeout(reset, 320);
+	currentWord = setTimeout(reset, 320);
+    enabled = true;
+}
+
+const reframeEscalate = function() {
     enabled = true;
 }
 
@@ -326,7 +355,16 @@ const incrementScore = function() {
 }
 
 for (let i=0; i<answerButtons.length; i++) {
-    answerButtons[i].addEventListener('click', answerCheck, false);
+    answerButtons[i].addEventListener('click', escalate, false);
 }
 
-reset();
+currentWord = reset();
+
+if (screen.width > 700) {
+	var domNode = anime({
+			targets: ".flip-container",
+			translateY: 50,
+			delay: 100,
+			easing: 'easeInOutQuart'
+	});
+}
