@@ -1,0 +1,124 @@
+body {
+  background: #f9f9f9;
+}
+.container {
+  width: 80%;
+  height: 380px;
+  margin: auto;
+}
+.flip-container {
+  perspective: 1000;
+  margin: 10px;
+  float: left;
+  cursor: pointer;
+}
+
+.flip-container .flippable {
+  transition: 1s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+.flip-container .flipme {
+  transform: rotateX(180deg) translate(0px, 210px);
+}
+.flip-container {
+  width: 35%;
+  height: 380px;
+}
+.button-container {
+  width: 35%;
+  float: right;
+}
+.choice {
+  width: 100%;
+  height: 65px;
+  background: #f2feff;
+  box-shadow: 1px 1px 3px rgba(0,0,0,.25);
+  margin: 20px;
+  border-radius: 3px;
+  color: #282828;
+  font-family: 'Song Myung', serif;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 65px;
+  font-size: 24px;
+}
+.choice:hover,
+.back:hover,
+.front:hover {
+  box-shadow: 3px 3px 6px rgba(0,0,0,.25);
+}
+.front,
+.back {
+  width: 100%;
+  height: 210px;
+  line-height: 100px;
+  text-align: center;
+  font-size: 40px;
+  border-radius: 3px;
+  backface-visibility: hidden;
+  transform-origin: top;
+}
+.front {
+  z-index: 2;
+  color: #282828;
+  box-shadow: 1px 1px 3px rgba(0,0,0,.25);
+  background-image:
+    linear-gradient(180deg, white 2.5rem, #F0A4A4 calc(2.5rem), #F0A4A4 calc(2.5rem + 2px), transparent 1px),
+    repeating-linear-gradient(0deg, transparent, transparent 1.5rem, #cbe5f2 1px, #cbe5f2 calc(1.5rem + 1px));
+}
+.front span {
+  font-size: 60px;
+  vertical-align: middle;
+  line-height: 170px;
+  font-family: verdana;
+}
+.back {
+  font-size: 30px;
+  font-family: Verdana;
+  color: #282828;
+  -webkit-transform: rotateX(180deg);
+  -moz-transform: rotateX(180deg);
+  -o-transform: rotateX(180deg);
+  -ms-transform: rotateX(180deg);
+  unicode-bidi: bidi-override;
+  box-shadow: 1px 1px 3px rgba(0,0,0,.25);
+}
+
+.back .translation {
+  font-size: 54px;
+  font-family: 'Song Myung', serif;
+}
+
+.back .pinyin {
+  font-size: 32px;
+  line-height: 0px;
+  margin-top: 30px;
+  font-family: 'Source Serif Pro', serif;
+}
+
+#header {
+  width: 100%;
+  height: 60px;
+}
+
+#score-board {
+  font-family: 'Song Myung', serif;
+  font-size: 54px;
+}
+
+.test-button {
+  width: 100%;
+  height: 60px;
+  background: #f2feff;
+  font-family: 'Song Myung', serif;
+}
+nav ul {
+  float: right;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 50px;
+  font-family: 'Source Serif Pro', serif;
+}

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>shankards</title>
+  <title>shankards</title>
+  <link href="https://fonts.googleapis.com/css?family=Song+Myung|Source+Serif+Pro" rel="stylesheet">
+  <link href="./style.css" rel="stylesheet">
+</head>
+<body>
+<div id="header">
+  <nav>
+    <ul>
+      <li> Home </li>
+      <li> About </li>
+      <li id="hsk-dropdown"> Level </li>
+      <li> Account </li>
+    </ul>
+  </nav>
+</div>
+
+<div class="container"> 
+  <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+    <div class="flippable">
+        <div class="front" id="front">
+          <span class="front-text">自行车</span>
+        </div>
+        <div class="back">
+          <p class = "translation"> bicycle </p>
+          <p class = "pinyin"> zìxíngchē </p>
+        </div>
+    </div>
+  </div>
+
+  <div class="button-container">
+    <div class="choice" id="first"></div>
+    <div class="choice" id="second"></div>
+    <div class="choice" id="third"></div>
+    <div class="choice" id="fourth"></div>
+  </div>
+</div>
+<div id="score-board">0</div>
+
+<script src="gameplay.js"></script>
+</body>
+</html>
