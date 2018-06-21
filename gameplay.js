@@ -229,16 +229,16 @@ const clearAnswers = function() {
 const fillCorrectAnswer = function(draw) {
 	let correct = Math.floor(Math.random() * 4) + 1;
 	if (correct === 1) {
-		firstOption.innerHTML = dealer.entries[draw].english;
+		firstOption.innerHTML = '<div class="content">' + dealer.entries[draw].english + '</div>';
 	}
 	if (correct === 2) {
-		secondOption.innerHTML = dealer.entries[draw].english;
+		secondOption.innerHTML = '<div class="content">' + dealer.entries[draw].english + '</div>';
 	}
 	if (correct === 3) {
-		thirdOption.innerHTML = dealer.entries[draw].english;
+		thirdOption.innerHTML = '<div class="content">' + dealer.entries[draw].english + '</div>';
 	}
 	if (correct === 4) {
-		fourthOption.innerHTML = dealer.entries[draw].english;
+		fourthOption.innerHTML = '<div class="content">' + dealer.entries[draw].english + '</div>';
 	}
 	return(correct);
 }
@@ -267,8 +267,7 @@ const fillIncorrectAnswers = function(notBlank, wrongAnswers) {
 		if (i === notBlank - 1) {
 			continue;
 		} else {
-			console.log(dealer.entries[wrongAnswers[counter]].english + ' counter: ' + counter);
-			choices[i].innerHTML = dealer.entries[wrongAnswers[counter]].english;
+			choices[i].innerHTML = '<div class="content">' + dealer.entries[wrongAnswers[counter]].english + '</div>';
 			counter++;
 		}
 	}
@@ -284,6 +283,10 @@ const reset = function() {
 	correct = fillCorrectAnswer(draw);
 	let incorrectAnswers = findIncorrectAnswers(draw);
 	fillIncorrectAnswers(correct, incorrectAnswers);
+	let choices = document.getElementsByClassName("choice");
+	for (let i=0; i<choices.length; i++) {
+		choices[i].style.backgroundColor = '#f2feff';
+	}
 }
 
 let answerButtons = document.getElementsByClassName('choice');
@@ -293,8 +296,12 @@ const answerCheck = function() {
 	isRight = (this.textContent === translation.textContent)
 	if (isRight) {
 		incrementScore();
+		this.style.backgroundColor = '#e5fff2';
+	} else {
+		this.style.backgroundColor = '#ffd3d5';
 	}
 	setTimeout(reframe, 1500);
+	let choices = document.getElementsByClassName("choice");
 }
 
 const reframe = function() {
