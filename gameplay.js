@@ -300,6 +300,12 @@ const answerCheck = function() {
 		if (isRight) {
 			incrementScore();
 			this.style.backgroundColor = '#e5fff2';
+			let elem = this;
+			var domNode = anime({
+  				targets: elem,
+  				translateX: 800,
+  				delay: 1000
+			});
 		} else {
 			this.style.backgroundColor = '#ffd3d5';
 		}
