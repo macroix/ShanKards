@@ -234,18 +234,8 @@ const clearAnswers = function() {
 // Fills correct answer; returns the placement integer
 const fillCorrectAnswer = function(draw) {
 	let correct = Math.floor(Math.random() * 4) + 1;
-	if (correct === 1) {
-		firstOption.innerHTML = '<div class="content">' + dealer.entries[draw].english + '</div>';
-	}
-	if (correct === 2) {
-		secondOption.innerHTML = '<div class="content">' + dealer.entries[draw].english + '</div>';
-	}
-	if (correct === 3) {
-		thirdOption.innerHTML = '<div class="content">' + dealer.entries[draw].english + '</div>';
-	}
-	if (correct === 4) {
-		fourthOption.innerHTML = '<div class="content">' + dealer.entries[draw].english + '</div>';
-	}
+	let x = document.getElementsByClassName("choice");
+    x[correct - 1].innerHTML = '<div class="content">' + dealer.entries[draw].english + '</div>';
 	return(correct);
 }
 
@@ -347,13 +337,14 @@ const escalate = function() {
 
 const reframe2 = function() {
 	shankard.classList.toggle('flipme');
-	currentWord = setTimeout(reset2, 1500);
+	currentWord = setTimeout(reset2, 2000);
     enabled = true;
 }
 
 const reset2 = function() {
 	shankard.classList.toggle('flipme');
 	let draw = Math.floor(Math.random() * 21);
+	currentWord = draw;
 	mainText.innerHTML = dealer.entries[draw].word;
 	translation.innerHTML = dealer.entries[draw].english;
 	pinyin.innerHTML = dealer.entries[draw].pinyin;
@@ -379,6 +370,10 @@ const reset2 = function() {
 	correct = fillCorrectAnswer(draw);
 	let incorrectAnswers = findIncorrectAnswers(draw);
 	fillIncorrectAnswers(correct, incorrectAnswers);
+	let answerButtons = document.getElementsByClassName('choice');
+	for (let i=0; i<answerButtons.length; i++) {
+    	answerButtons[i].addEventListener('click', escalate, false);
+	}
 	return(draw)
 }
 
@@ -388,7 +383,7 @@ const checkInput = function() {
 	for (let i=0;i<textInputs.length;i++) {
 		userAnswer += textInputs[i].value;
 	}
-	if (userAnswer === dealer.entries[currentWord].flat_pinyin) {
+	if (userAnswer === dealer.entries[currentWord].flat_pinyin.replace(/\s/g,'')) {
 		incrementScore();
 	}
 	setTimeout(reframe2, 600);
@@ -396,6 +391,7 @@ const checkInput = function() {
 
 const reframeEscalate = function() {
     enabled = true;
+
 	syllableCount = dealer.entries[currentWord].tones.length
 	while (buttonContainer.firstChild) {
 		buttonContainer.removeChild(buttonContainer.firstChild);
@@ -417,7 +413,7 @@ let answerButtons = document.getElementsByClassName('choice');
 let enabled = true;
 
 for (let i=0; i<answerButtons.length; i++) {
-    answerButtons[i].addEventListener('click', answerCheck, false);
+    answerButtons[i].addEventListener('click', escalate, false);
 }
 
 currentWord = reset();
