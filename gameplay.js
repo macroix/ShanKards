@@ -341,13 +341,16 @@ const reframe2 = function() {
     enabled = true;
 }
 
+const refillCard = function(draw) {
+	mainText.innerHTML = dealer.entries[draw].word;
+	translation.innerHTML = dealer.entries[draw].english;
+	pinyin.innerHTML = dealer.entries[draw].pinyin;
+}
+
 const reset2 = function() {
 	shankard.classList.toggle('flipme');
 	let draw = Math.floor(Math.random() * 21);
 	currentWord = draw;
-	mainText.innerHTML = dealer.entries[draw].word;
-	translation.innerHTML = dealer.entries[draw].english;
-	pinyin.innerHTML = dealer.entries[draw].pinyin;
 	while (buttonContainer.firstChild) {
 		buttonContainer.removeChild(buttonContainer.firstChild);
 	}
@@ -374,6 +377,7 @@ const reset2 = function() {
 	for (let i=0; i<answerButtons.length; i++) {
     	answerButtons[i].addEventListener('click', escalate, false);
 	}
+	setTimeout(function() {refillCard(draw); }, 600);
 	return(draw)
 }
 
@@ -386,7 +390,7 @@ const checkInput = function() {
 	if (userAnswer === dealer.entries[currentWord].flat_pinyin.replace(/\s/g,'')) {
 		incrementScore();
 	}
-	setTimeout(reframe2, 600);
+	setTimeout(reframe2, 400);
 }
 
 const reframeEscalate = function() {
@@ -421,7 +425,7 @@ currentWord = reset();
 if (screen.width > 700) {
 	var domNode = anime({
 			targets: ".flip-container",
-			translateY: 50,
+			translateY: 30,
 			delay: 100,
 			easing: 'easeInOutQuart'
 	});
