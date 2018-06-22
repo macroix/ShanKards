@@ -543,6 +543,7 @@ const compareTone = function() {
 		if (flag) {
 			incrementScore();
 		}
+		setTimeout(reframe2, 400);
 	}
 }
 
