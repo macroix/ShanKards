@@ -409,6 +409,8 @@ const reframeEscalate = function() {
 		});
 		buttonContainer.appendChild(syllable);
 	}
+	let textInputs = document.getElementsByTagName('input');
+	textInputs[0].focus()
 }
 
 ///////////////////// MAIN ////////////////////////
