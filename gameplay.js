@@ -80,7 +80,7 @@ const dictionary = '{' +
       '"word": "不客气",' +
       '"english": "you\'re welcome",' +
       '"pinyin": "bú kèqi",' +
-      '"flat_pinyin": "by keqi",' +
+      '"flat_pinyin": "bu keqi",' +
       '"pos": "phrase",' +
       '"tones": [2, 4, 5],' +
       '"length": [2, 2, 2],' +
@@ -333,6 +333,13 @@ const incrementScore = function() {
 	score = parseInt(document.getElementById('score-board').innerHTML);
 	score++;
 	document.getElementById('score-board').innerHTML = score;
+	var cssProperties = anime({
+  		targets: '#score-board',
+  		translateX: '25',
+  		easing: 'easeInOutQuad',
+  		direction: 'alternate',
+  		duration: 1000
+	});
 }
 
 ///////////////////// MODE 2 ////////////////////////
@@ -417,13 +424,6 @@ const checkInput = function() {
 	}
 	if (userAnswer.toLowerCase() === dealer.entries[currentWord].flat_pinyin.replace(/\s/g,'').toLowerCase()) {
 		incrementScore();
-		var cssProperties = anime({
-  			targets: '#score-board',
-  			translateX: '25',
-  			easing: 'easeInOutQuad',
-  			direction: 'alternate',
-  			duration: 1000
-		});
 		//setTimeout(reframe2, 400); /////////////////////////////////////////// Key to Stage 2
 		setTimeout(toneEscalate, 400); ///////////////////////////////////////// Key to Stage 3
 	} else {
@@ -434,7 +434,7 @@ const checkInput = function() {
   			rotate: 30,
   			easing: 'easeInOutQuad'
 		});
-		setTimeout(reframe2, 400);
+		setTimeout(reframe2, 200);
 	}
 }
 
@@ -538,6 +538,10 @@ const compareTone = function() {
 		for (let i=0; i<input.length; i++) {
 			if (input[i] !== tones[i]) {
 				flag = false;
+				//object.style.backgroundColor
+				selections[i].style.backgroundColor = '#ffd3d5';
+			} else {
+				selections[i].style.backgroundColor = '#e5fff2';
 			}
 		} 
 		if (flag) {
